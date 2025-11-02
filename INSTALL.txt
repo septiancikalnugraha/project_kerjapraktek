@@ -1,0 +1,64 @@
+================================================================================
+    PANDUAN INSTALASI
+    Sistem Informasi Penjualan dan Keuangan
+    CV. PANCA INDRA KEMASAN
+================================================================================
+
+LANGKAH 1: PERSIAPAN
+-------------------
+1. Pastikan XAMPP sudah terinstall dan berjalan
+2. Pastikan Apache dan MySQL service aktif di XAMPP Control Panel
+3. Buka phpMyAdmin melalui: http://localhost/phpmyadmin
+
+LANGKAH 2: MEMBUAT DATABASE
+----------------------------
+1. Di phpMyAdmin, klik tab "SQL"
+2. Copy seluruh isi file database.sql
+3. Paste ke textarea SQL di phpMyAdmin
+4. Klik "Go" atau "Kirim"
+5. Pastikan database "kerjapraktek_db" berhasil dibuat
+
+ATAU dengan cara cepat:
+- Klik tab "Import"
+- Pilih file database.sql
+- Klik "Go"
+
+LANGKAH 3: KONFIGURASI DATABASE
+--------------------------------
+1. Buka file: config/database.php
+2. Sesuaikan dengan setting MySQL Anda:
+   
+   define('DB_HOST', 'localhost');
+   define('DB_USER', 'root');        // Username MySQL Anda
+   define('DB_PASS', '');            // Password MySQL Anda (kosong jika tidak ada)
+   define('DB_NAME', 'kerjapraktek_db');
+
+LANGKAH 4: AKSES SISTEM
+------------------------
+1. Buka browser
+2. Akses: http://localhost/project_kerjapraktek/
+
+CATATAN PENTING:
+----------------
+- Untuk login pertama kali, gunakan form REGISTRASI untuk membuat akun baru
+- Atau ubah password default admin melalui phpMyAdmin
+- Pastikan semua file berada di folder: C:\xampp\htdocs\project_kerjapraktek\
+
+MASALAH UMUM:
+-------------
+1. Error koneksi database:
+   → Periksa MySQL service berjalan
+   → Periksa konfigurasi di config/database.php
+
+2. Page not found:
+   → Pastikan folder project ada di C:\xampp\htdocs\
+   → Pastikan nama folder: project_kerjapraktek
+
+3. Session error:
+   → Pastikan session folder writable
+   → Check php.ini untuk session settings
+
+================================================================================
+SELAMAT MENGGUNAKAN SISTEM!
+================================================================================
+
