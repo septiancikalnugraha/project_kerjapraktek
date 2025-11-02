@@ -6,81 +6,99 @@ require_once 'config/database.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistem Informasi Penjualan dan Keuangan CV. PANCA INDRA KEMASAN - Solusi terintegrasi untuk meningkatkan efisiensi operasional perusahaan">
     <title>Sistem Informasi Penjualan dan Keuangan - CV. PANCA INDRA KEMASAN</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <h1>PANCA INDRA KEMASAN</h1>
+                <div class="brand-logo">📦</div>
+                <div class="brand-text">
+                    <h1>PANCA INDRA KEMASAN</h1>
+                    <span class="brand-tagline">Solusi Kemasan Terpercaya</span>
+                </div>
             </div>
             <div class="nav-menu">
-                <a href="index.php" class="nav-link active">Beranda</a>
+                <button class="nav-tab active" data-panel="beranda" onclick="switchPanel('beranda'); return false;">
+                    <span class="tab-icon">🏠</span>
+                    <span>Beranda</span>
+                </button>
+                <button class="nav-tab" data-panel="fitur" onclick="switchPanel('fitur'); return false;">
+                    <span class="tab-icon">⭐</span>
+                    <span>Fitur</span>
+                </button>
+                <button class="nav-tab" data-panel="keunggulan" onclick="switchPanel('keunggulan'); return false;">
+                    <span class="tab-icon">🎯</span>
+                    <span>Keunggulan</span>
+                </button>
                 <a href="login.php" class="nav-link">Masuk</a>
-                <a href="register.php" class="nav-link btn-primary">Daftar</a>
+                <a href="register.php" class="nav-link btn-primary">Daftar Sekarang</a>
             </div>
         </div>
     </nav>
 
-    <section class="hero">
+    <?php include 'includes/home_panels.php'; ?>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Sistem Informasi Penjualan dan Keuangan</h1>
-                <p class="hero-subtitle">Sebagai Upaya Peningkatan Efisiensi Operasional</p>
-                <p class="hero-description">
-                    Solusi terintegrasi untuk mengelola penjualan dan keuangan perusahaan secara efisien dan akurat.
-                    Sistem ini membantu meningkatkan produktivitas dan kontrol operasional CV. PANCA INDRA KEMASAN.
-                </p>
-                <div class="hero-buttons">
-                    <a href="register.php" class="btn btn-large btn-primary">Mulai Sekarang</a>
-                    <a href="login.php" class="btn btn-large btn-secondary">Masuk ke Sistem</a>
+            <div class="cta-content">
+                <h2>Siap Meningkatkan Efisiensi Operasional?</h2>
+                <p>Bergabunglah dengan CV. PANCA INDRA KEMASAN dan rasakan kemudahan mengelola penjualan dan keuangan</p>
+                <div class="cta-buttons">
+                    <a href="register.php" class="btn btn-large btn-primary">
+                        <span>Daftar Sekarang</span>
+                        <span class="btn-icon">→</span>
+                    </a>
+                    <a href="login.php" class="btn btn-large btn-light">Masuk ke Sistem</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="features">
-        <div class="container">
-            <h2 class="section-title">Fitur Utama</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Manajemen Penjualan</h3>
-                    <p>Kelola penjualan, invoice, dan transaksi dengan mudah dan cepat.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Manajemen Keuangan</h3>
-                    <p>Pantau pemasukan dan pengeluaran perusahaan secara real-time.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📦</div>
-                    <h3>Manajemen Produk</h3>
-                    <p>Kelola katalog produk, stok, dan kategori dengan efisien.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">👥</div>
-                    <h3>Manajemen Pelanggan</h3>
-                    <p>Database pelanggan terintegrasi untuk meningkatkan layanan.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📈</div>
-                    <h3>Laporan & Analitik</h3>
-                    <p>Laporan penjualan dan keuangan untuk pengambilan keputusan.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Keamanan Data</h3>
-                    <p>Sistem keamanan tingkat tinggi untuk melindungi data perusahaan.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> CV. PANCA INDRA KEMASAN. All rights reserved.</p>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <div class="brand-logo">📦</div>
+                        <h3>PANCA INDRA KEMASAN</h3>
+                        <p>Solusi kemasan terpercaya untuk kebutuhan bisnis Anda</p>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="index.php">Beranda</a></li>
+                        <li><a href="#fitur" onclick="switchPanel('fitur'); return false;">Fitur</a></li>
+                        <li><a href="#keunggulan" onclick="switchPanel('keunggulan'); return false;">Keunggulan</a></li>
+                        <li><a href="login.php">Masuk</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Sistem</h4>
+                    <ul>
+                        <li><a href="register.php">Daftar</a></li>
+                        <li><a href="login.php">Login</a></li>
+                        <li><a href="dashboard.php">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Kontak</h4>
+                    <ul>
+                        <li>Email: info@pancaindra.com</li>
+                        <li>Telp: (021) 1234-5678</li>
+                        <li>Alamat: Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <?php echo date('Y'); ?> CV. PANCA INDRA KEMASAN. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 

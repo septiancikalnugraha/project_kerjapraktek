@@ -7,6 +7,7 @@ requireLogin();
 
 $user = getCurrentUser();
 $conn = getConnection();
+$page_title = 'Dashboard';
 
 // Get dashboard statistics
 // Total Sales Today
@@ -67,32 +68,17 @@ if ($result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sistem Informasi Penjualan dan Keuangan</title>
+    <title><?php echo htmlspecialchars($page_title); ?> - Sistem Informasi Penjualan dan Keuangan</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h1>PANCA INDRA KEMASAN</h1>
-            </div>
-            <div class="nav-menu">
-                <a href="dashboard.php" class="nav-link active">Dashboard</a>
-                <a href="#" class="nav-link">Penjualan</a>
-                <a href="#" class="nav-link">Produk</a>
-                <a href="#" class="nav-link">Keuangan</a>
-                <?php if ($user['role'] == 'admin'): ?>
-                    <a href="#" class="nav-link">Laporan</a>
-                <?php endif; ?>
-                <div class="nav-user">
-                    <span>Halo, <?php echo htmlspecialchars($user['full_name']); ?></span>
-                    <a href="logout.php" class="nav-link btn-danger">Keluar</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="container">
+<body class="dashboard-body">
+    <div class="dashboard-wrapper">
+        <?php include 'includes/dashboard_sidebar.php'; ?>
+        
+        <div class="dashboard-main">
+            <?php include 'includes/dashboard_header.php'; ?>
+            
+            <main class="dashboard-content">
         <div class="page-header">
             <h1>Dashboard</h1>
             <p>Selamat datang, <?php echo htmlspecialchars($user['full_name']); ?>!</p>
@@ -153,7 +139,7 @@ if ($result) {
         <div class="dashboard-section">
             <div class="section-header">
                 <h2>Penjualan Terakhir</h2>
-                <a href="#" class="btn btn-secondary">Lihat Semua</a>
+                <a href="penjualan.php" class="btn btn-secondary">Lihat Semua</a>
             </div>
             
             <div class="table-container">
@@ -198,41 +184,41 @@ if ($result) {
         <div class="dashboard-section">
             <h2>Aksi Cepat</h2>
             <div class="quick-actions">
-                <a href="#" class="action-btn">
-                    <div class="action-icon">➕</div>
-                    <span>Penjualan Baru</span>
+                <a href="penjualan.php" class="action-btn">
+                    <div class="action-icon">💵</div>
+                    <span>Penjualan</span>
                 </a>
-                <a href="#" class="action-btn">
+                <a href="produk.php" class="action-btn">
                     <div class="action-icon">📦</div>
-                    <span>Tambah Produk</span>
+                    <span>Produk</span>
                 </a>
-                <a href="#" class="action-btn">
+                <a href="pelanggan.php" class="action-btn">
                     <div class="action-icon">👤</div>
-                    <span>Tambah Pelanggan</span>
+                    <span>Pelanggan</span>
                 </a>
-                <a href="#" class="action-btn">
+                <a href="keuangan.php" class="action-btn">
                     <div class="action-icon">💰</div>
-                    <span>Catat Pemasukan</span>
+                    <span>Keuangan</span>
                 </a>
-                <a href="#" class="action-btn">
-                    <div class="action-icon">💸</div>
-                    <span>Catat Pengeluaran</span>
-                </a>
-                <a href="#" class="action-btn">
+                <?php if ($user['role'] == 'admin' || $user['role'] == 'manajer'): ?>
+                <a href="laporan.php" class="action-btn">
                     <div class="action-icon">📊</div>
-                    <span>Lihat Laporan</span>
+                    <span>Laporan</span>
                 </a>
+                <?php endif; ?>
             </div>
         </div>
-    </main>
-
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; <?php echo date('Y'); ?> CV. PANCA INDRA KEMASAN. All rights reserved.</p>
+            </main>
         </div>
-    </footer>
+    </div>
 
     <script src="assets/js/main.js"></script>
+    <script>
+        // Sidebar toggle for mobile
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.querySelector('.dashboard-sidebar').classList.toggle('active');
+        });
+    </script>
 </body>
 </html>
 

@@ -17,6 +17,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize mobile menu toggle (if needed)
     initMobileMenu();
+    
+    // Initialize home panels tab switching
+    initHomePanels();
 });
 
 /**
@@ -89,6 +92,54 @@ function initMobileMenu() {
     const navMenu = document.querySelector('.nav-menu');
     if (navMenu && window.innerWidth <= 768) {
         // Mobile menu can be expanded here
+    }
+}
+
+/**
+ * Initialize home panels tab switching
+ */
+function initHomePanels() {
+    const tabs = document.querySelectorAll('.nav-tab');
+    const panels = document.querySelectorAll('.home-panel');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const panelId = this.getAttribute('data-panel');
+            switchPanel(panelId);
+        });
+    });
+    
+    // Handle URL hash for direct panel access
+    const hash = window.location.hash;
+    if (hash) {
+        const panelName = hash.replace('#', '');
+        switchPanel(panelName);
+    }
+}
+
+/**
+ * Switch to specific panel
+ */
+function switchPanel(panelName) {
+    const tabs = document.querySelectorAll('.nav-tab');
+    const panels = document.querySelectorAll('.home-panel');
+    
+    // Remove active class from all tabs and panels
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    
+    // Add active class to clicked tab and corresponding panel
+    const tab = document.querySelector(`[data-panel="${panelName}"]`);
+    const targetPanel = document.getElementById(`panel-${panelName}`);
+    
+    if (tab && targetPanel) {
+        tab.classList.add('active');
+        targetPanel.classList.add('active');
+        
+        // Smooth scroll to panel if needed
+        setTimeout(() => {
+            targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
     }
 }
 
