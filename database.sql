@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(100) NOT NULL,
-    role ENUM('admin', 'kasir', 'manajer') DEFAULT 'kasir',
+    role ENUM('owner', 'admin', 'kasir', 'manajer') DEFAULT 'kasir',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('active', 'inactive') DEFAULT 'active'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -99,10 +99,10 @@ CREATE TABLE IF NOT EXISTS expenses (
     FOREIGN KEY (created_by) REFERENCES users(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Insert default admin user (password: admin123)
+-- Insert default owner user (password: owner123)
 -- Password di-hash menggunakan password_hash PHP (default bcrypt)
 INSERT INTO users (username, email, password, full_name, role) VALUES
-('admin', 'admin@pancaindra.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'admin');
+('owner', 'pancaindra@gmail.com', '$2y$10$9UvpzGQ.HXniQUir2rX2wuL4SrQRRrQfu6JVukZ9MW8IUZxJf', 'Pemilik Perusahaan', 'owner');
 
 -- Insert sample categories
 INSERT INTO categories (name, description) VALUES

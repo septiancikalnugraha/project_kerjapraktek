@@ -70,6 +70,7 @@ if ($result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($page_title); ?> - Sistem Informasi Penjualan dan Keuangan</title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
 </head>
 <body class="dashboard-body">
     <div class="dashboard-wrapper">
@@ -79,135 +80,156 @@ if ($result) {
             <?php include 'includes/dashboard_header.php'; ?>
             
             <main class="dashboard-content">
-        <div class="page-header">
-            <h1>Dashboard</h1>
-            <p>Selamat datang, <?php echo htmlspecialchars($user['full_name']); ?>!</p>
-        </div>
+                <div class="page-grid">
+                    <section class="welcome-card glass-card">
+                        <div>
+                            <p class="welcome-subtitle">Halo, <?php echo htmlspecialchars($user['full_name']); ?></p>
+                            <h2 class="welcome-title">Selamat datang kembali!</h2>
+                            <p class="welcome-text">Pantau performa penjualan, pelanggan, dan cashflow bisnis Anda di satu tempat.</p>
+                        </div>
+                        <div class="welcome-icon">📈</div>
+                    </section>
 
-        <!-- Statistics Cards -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">💰</div>
-                <div class="stat-content">
-                    <h3>Penjualan Hari Ini</h3>
-                    <p class="stat-value">Rp <?php echo number_format($today_sales, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">📊</div>
-                <div class="stat-content">
-                    <h3>Penjualan Bulan Ini</h3>
-                    <p class="stat-value">Rp <?php echo number_format($month_sales, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">📈</div>
-                <div class="stat-content">
-                    <h3>Pemasukan Bulan Ini</h3>
-                    <p class="stat-value">Rp <?php echo number_format($month_income, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">📉</div>
-                <div class="stat-content">
-                    <h3>Pengeluaran Bulan Ini</h3>
-                    <p class="stat-value">Rp <?php echo number_format($month_expenses, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">📦</div>
-                <div class="stat-content">
-                    <h3>Total Produk</h3>
-                    <p class="stat-value"><?php echo number_format($total_products, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-content">
-                    <h3>Total Pelanggan</h3>
-                    <p class="stat-value"><?php echo number_format($total_customers, 0, ',', '.'); ?></p>
-                </div>
-            </div>
-        </div>
+                    <section class="stat-grid">
+                        <article class="stat-card">
+                            <div class="stat-icon gradient-blue">💰</div>
+                            <div class="stat-detail">
+                                <p class="stat-label">Penjualan Hari Ini</p>
+                                <h3 class="stat-value">Rp <?php echo number_format($today_sales, 0, ',', '.'); ?></h3>
+                                <span class="stat-caption">Perbandingan dengan kemarin akan tampil di sini</span>
+                            </div>
+                        </article>
 
-        <!-- Recent Sales -->
-        <div class="dashboard-section">
-            <div class="section-header">
-                <h2>Penjualan Terakhir</h2>
-                <a href="penjualan.php" class="btn btn-secondary">Lihat Semua</a>
-            </div>
-            
-            <div class="table-container">
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>No. Invoice</th>
-                            <th>Tanggal</th>
-                            <th>Pelanggan</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Kasir</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (empty($recent_sales)): ?>
-                            <tr>
-                                <td colspan="6" class="text-center">Belum ada data penjualan</td>
-                            </tr>
-                        <?php else: ?>
-                            <?php foreach ($recent_sales as $sale): ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($sale['invoice_number']); ?></td>
-                                    <td><?php echo date('d/m/Y H:i', strtotime($sale['sale_date'])); ?></td>
-                                    <td><?php echo htmlspecialchars($sale['customer_name'] ?? 'Pelanggan Umum'); ?></td>
-                                    <td>Rp <?php echo number_format($sale['total'], 0, ',', '.'); ?></td>
-                                    <td>
-                                        <span class="badge badge-<?php echo $sale['status'] == 'completed' ? 'success' : ($sale['status'] == 'pending' ? 'warning' : 'danger'); ?>">
-                                            <?php echo ucfirst($sale['status']); ?>
-                                        </span>
-                                    </td>
-                                    <td><?php echo htmlspecialchars($sale['seller_name']); ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                        <article class="stat-card">
+                            <div class="stat-icon gradient-purple">📊</div>
+                            <div class="stat-detail">
+                                <p class="stat-label">Penjualan Bulan Ini</p>
+                                <h3 class="stat-value">Rp <?php echo number_format($month_sales, 0, ',', '.'); ?></h3>
+                                <span class="stat-caption">Akumulasi transaksi sejak awal bulan</span>
+                            </div>
+                        </article>
 
-        <!-- Quick Actions -->
-        <div class="dashboard-section">
-            <h2>Aksi Cepat</h2>
-            <div class="quick-actions">
-                <a href="penjualan.php" class="action-btn">
-                    <div class="action-icon">💵</div>
-                    <span>Penjualan</span>
-                </a>
-                <a href="produk.php" class="action-btn">
-                    <div class="action-icon">📦</div>
-                    <span>Produk</span>
-                </a>
-                <a href="pelanggan.php" class="action-btn">
-                    <div class="action-icon">👤</div>
-                    <span>Pelanggan</span>
-                </a>
-                <a href="keuangan.php" class="action-btn">
-                    <div class="action-icon">💰</div>
-                    <span>Keuangan</span>
-                </a>
-                <?php if ($user['role'] == 'admin' || $user['role'] == 'manajer'): ?>
-                <a href="laporan.php" class="action-btn">
-                    <div class="action-icon">📊</div>
-                    <span>Laporan</span>
-                </a>
-                <?php endif; ?>
-            </div>
-        </div>
+                        <article class="stat-card">
+                            <div class="stat-icon gradient-emerald">🧾</div>
+                            <div class="stat-detail">
+                                <p class="stat-label">Pelanggan Terdaftar</p>
+                                <h3 class="stat-value"><?php echo number_format($total_customers, 0, ',', '.'); ?></h3>
+                                <span class="stat-caption">Total pelanggan aktif saat ini</span>
+                            </div>
+                        </article>
+                    </section>
+
+                    <section class="data-panels">
+                        <div class="panel-card">
+                            <div class="panel-heading">
+                                <h3>Transaksi Terbaru</h3>
+                                <a href="penjualan.php" class="panel-link">Lihat semua</a>
+                            </div>
+                            <div class="panel-body">
+                                <?php if (!empty($recent_sales)): ?>
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Tanggal</th>
+                                                <th>Pelanggan</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($recent_sales as $sale): ?>
+                                                <tr>
+                                                    <td><?php echo date('d M Y', strtotime($sale['sale_date'])); ?></td>
+                                                    <td><?php echo htmlspecialchars($sale['customer_name'] ?? '-'); ?></td>
+                                                    <td>Rp <?php echo number_format($sale['total'], 0, ',', '.'); ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                <?php else: ?>
+                                    <div class="empty-state">
+                                        <span class="empty-icon">🗒️</span>
+                                        <p>Belum ada transaksi yang tercatat.</p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="panel-card">
+                            <div class="panel-heading">
+                                <h3>Produk Terlaris</h3>
+                                <a href="produk.php" class="panel-link">Kelola produk</a>
+                            </div>
+                            <div class="panel-body">
+                                <?php if (!empty($topProducts)): ?>
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Produk</th>
+                                                <th>Jumlah Terjual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($topProducts as $product): ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($product['name']); ?></td>
+                                                    <td><?php echo $product['total_sold']; ?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                <?php else: ?>
+                                    <div class="empty-state">
+                                        <span class="empty-icon">📦</span>
+                                        <p>Belum ada data produk terlaris yang tersedia.</p>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="quick-links">
+                        <h3 class="quick-title">Akses cepat</h3>
+                        <div class="quick-grid">
+                            <a href="penjualan.php" class="quick-card">
+                                <span class="quick-icon gradient-blue">💵</span>
+                                <div>
+                                    <p>Penjualan</p>
+                                    <span>Catat transaksi baru</span>
+                                </div>
+                            </a>
+                            <a href="produk.php" class="quick-card">
+                                <span class="quick-icon gradient-purple">📦</span>
+                                <div>
+                                    <p>Produk</p>
+                                    <span>Kelola inventori</span>
+                                </div>
+                            </a>
+                            <a href="pelanggan.php" class="quick-card">
+                                <span class="quick-icon gradient-emerald">👥</span>
+                                <div>
+                                    <p>Pelanggan</p>
+                                    <span>Lihat relasi pelanggan</span>
+                                </div>
+                            </a>
+                            <a href="keuangan.php" class="quick-card">
+                                <span class="quick-icon gradient-orange">💰</span>
+                                <div>
+                                    <p>Keuangan</p>
+                                    <span>Rekap pemasukan & pengeluaran</span>
+                                </div>
+                            </a>
+                            <?php if ($user['role'] == 'admin' || $user['role'] == 'manajer'): ?>
+                            <a href="laporan.php" class="quick-card">
+                                <span class="quick-icon gradient-pink">📈</span>
+                                <div>
+                                    <p>Laporan</p>
+                                    <span>Review performa bisnis</span>
+                                </div>
+                            </a>
+                            <?php endif; ?>
+                        </div>
+                    </section>
+                </div>
             </main>
         </div>
     </div>

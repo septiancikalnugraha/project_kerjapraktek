@@ -2,6 +2,9 @@
 require_once 'config/database.php';
 require_once 'config/auth.php';
 
+// Ensure default owner is available
+ensureDefaultOwnerAccount();
+
 // Redirect if already logged in
 if (isLoggedIn()) {
     header('Location: dashboard.php');
@@ -66,47 +69,93 @@ if (isset($_GET['registered'])) {
     <title>Login - Sistem Informasi Penjualan dan Keuangan</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body class="auth-page">
-    <div class="auth-container">
+<body class="auth-page auth-login">
+    <div class="auth-wrapper">
         <div class="auth-card">
-            <div class="auth-header">
-                <h1>CV. PANCA INDRA KEMASAN</h1>
-                <h2>Masuk ke Sistem</h2>
-                <p>Sistem Informasi Penjualan dan Keuangan</p>
-            </div>
-            
-            <?php if ($error): ?>
-                <div class="alert alert-error">
-                    <?php echo htmlspecialchars($error); ?>
+            <div class="auth-grid">
+                <div class="auth-info">
+                    <div class="auth-info-inner">
+                        <div class="auth-brand">
+                            <div class="auth-logo">📦</div>
+                            <div class="auth-copy">
+                                <span class="auth-eyebrow">Sistem Informasi Penjualan &amp; Keuangan</span>
+                                <h2>CV. PANCA INDRA KEMASAN</h2>
+                            </div>
+                        </div>
+                        <p class="auth-lead">
+                            Dashboard tunggal untuk memantau penjualan, pelanggan, dan arus kas tanpa kerumitan.
+                        </p>
+                        <div class="auth-highlight-card">
+                            <span class="meta-badge">Admin &amp; Owner</span>
+                            <p>Masuk untuk melanjutkan pekerjaan Anda dan tetap selangkah di depan kinerja bisnis.</p>
+                        </div>
+                    </div>
+                    <div class="auth-info-footer">
+                        <p>Belum punya akun? <a href="register.php">Daftar sekarang</a></p>
+                    </div>
                 </div>
-            <?php endif; ?>
-            
-            <?php if ($success): ?>
-                <div class="alert alert-success">
-                    <?php echo htmlspecialchars($success); ?>
+
+                <div class="auth-form">
+                    <div class="auth-header">
+                        <span class="auth-badge">Masuk</span>
+                        <h1>Selamat datang kembali 👋</h1>
+                        <p>Gunakan username atau email terdaftar untuk mengakses dashboard.</p>
+                    </div>
+
+                    <?php if ($error): ?>
+                        <div class="alert alert-error" role="alert">
+                            <?php echo htmlspecialchars($error); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($success): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?php echo htmlspecialchars($success); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="login.php" class="auth-form-body" novalidate>
+                        <div class="form-group">
+                            <label for="username">Username atau Email</label>
+                            <div class="form-field">
+                                <span class="input-icon">👤</span>
+                                <input
+                                    type="text"
+                                    id="username"
+                                    name="username"
+                                    class="form-control"
+                                    required
+                                    value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>"
+                                    placeholder="Masukkan username atau email"
+                                    autocomplete="username"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="form-field">
+                                <span class="input-icon">🔒</span>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    class="form-control"
+                                    required
+                                    placeholder="Masukkan password"
+                                    autocomplete="current-password"
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block">Masuk ke Dashboard</button>
+                    </form>
+
+                    <div class="auth-footer">
+                        <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
+                        <p><a href="index.php" class="auth-link">← Kembali ke Beranda</a></p>
+                    </div>
                 </div>
-            <?php endif; ?>
-            
-            <form method="POST" action="login.php" class="auth-form">
-                <div class="form-group">
-                    <label for="username">Username atau Email</label>
-                    <input type="text" id="username" name="username" required 
-                           value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>"
-                           placeholder="Masukkan username atau email">
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required 
-                           placeholder="Masukkan password">
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-block">Masuk</button>
-            </form>
-            
-            <div class="auth-footer">
-                <p>Belum punya akun? <a href="register.php">Daftar di sini</a></p>
-                <p><a href="index.php">Kembali ke Beranda</a></p>
             </div>
         </div>
     </div>

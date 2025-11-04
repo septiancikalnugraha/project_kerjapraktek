@@ -31,5 +31,62 @@ function getConnection() {
     global $conn;
     return $conn;
 }
+
+/**
+ * Ensure default owner account exists and stays active
+ */
+function ensureDefaultOwnerAccount() {
+    $conn = getConnection();
+
+    $defaultUsername = 'owner';
+    $defaultEmail = 'pancaindra@gmail.com';
+    $defaultFullName = 'Pemilik Perusahaan';
+    $defaultPassword = 'owner123';
+
+    $query = "SELECT id, email, password, status FROM users WHERE username = ? OR role = 'owner' ORDER BY id ASC LIMIT 1";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('s', $defaultUsername);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($owner = $result->fetch_assoc()) {
+        $stmt->close();
+
+        $needsUpdate = false;
+        $newEmail = $owner['email'];
+        $newPasswordHash = $owner['password'];
+        $newStatus = $owner['status'];
+
+        if ($owner['email'] !== $defaultEmail) {
+            $newEmail = $defaultEmail;
+            $needsUpdate = true;
+        }
+
+        if (!password_verify($defaultPassword, $owner['password'])) {
+            $newPasswordHash = password_hash($defaultPassword, PASSWORD_DEFAULT);
+            $needsUpdate = true;
+        }
+
+        if ($owner['status'] !== 'active') {
+            $newStatus = 'active';
+            $needsUpdate = true;
+        }
+
+        if ($needsUpdate) {
+            $updateStmt = $conn->prepare("UPDATE users SET email = ?, password = ?, status = ?, role = 'owner' WHERE id = ?");
+            $updateStmt->bind_param('sssi', $newEmail, $newPasswordHash, $newStatus, $owner['id']);
+            $updateStmt->execute();
+            $updateStmt->close();
+        }
+    } else {
+        $stmt->close();
+        $hashedPassword = password_hash($defaultPassword, PASSWORD_DEFAULT);
+
+        $insertStmt = $conn->prepare("INSERT INTO users (username, email, password, full_name, role, status) VALUES (?, ?, ?, ?, 'owner', 'active')");
+        $insertStmt->bind_param('ssss', $defaultUsername, $defaultEmail, $hashedPassword, $defaultFullName);
+        $insertStmt->execute();
+        $insertStmt->close();
+    }
+}
 ?>
 
